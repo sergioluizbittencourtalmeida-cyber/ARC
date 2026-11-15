@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photographic Evidence — Classified Archive</title>
+  <link rel="stylesheet" href="../css/restricted.css">
+</head>
+<body class="arc-noise">
+
+  <div class="arc-app">
+    <aside class="arc-sidebar">
+      <div class="arc-sidebar-header">
+        <div class="arc-sidebar-logo">ARC</div>
+        <div>
+          <div class="arc-sidebar-title">CLASSIFIED ARCHIVE</div>
+          <div class="arc-sidebar-sub">SISTEMA INTERNO • NÍVEL 3</div>
+        </div>
+      </div>
+      <div class="arc-sidebar-user" id="arc-sidebar-user">AGENT</div>
+      <ul class="arc-nav">
+        <li><a href="index.html" class="nav-item"><span class="icon">▭</span> Dashboard</a></li>
+        <li><a href="entities.html" class="nav-item"><span class="icon">⬡</span> Entity Database</a></li>
+        <li><a href="incidents.html" class="nav-item"><span class="icon">⚠</span> Incident Reports</a></li>
+        <li><a href="field-ops.html" class="nav-item"><span class="icon">▷</span> Field Operations</a></li>
+        <li><a href="research.html" class="nav-item"><span class="icon">🔬</span> Research Documents</a></li>
+        <li><a href="evidence.html" class="nav-item active"><span class="icon">📷</span> Photographic Evidence</a></li>
+        <li><a href="personnel.html" class="nav-item"><span class="icon">👤</span> Personnel Records</a></li>
+        <li><a href="restricted.html" class="nav-item"><span class="icon">🔒</span> Restricted Files</a></li>
+        <li><a href="communications.html" class="nav-item"><span class="icon">💬</span> Internal Communications</a></li>
+      </ul>
+      <div class="arc-sidebar-footer">
+        <button class="arc-btn-logout" onclick="ARC_App.doLogout()">Sair do Sistema</button>
+        <div class="arc-sidebar-status" id="arc-sidebar-status"><span class="arc-dot"></span> Sistema online</div>
+      </div>
+    </aside>
+    <main class="arc-main">
+      <header class="arc-topbar">
+        <div class="arc-topbar-left">
+          <div class="arc-breadcrumb"><span id="arc-breadcrumb-text">ARC System</span> <span>▸</span> Photographic Evidence</div>
+        </div>
+        <div class="arc-topbar-right">
+          <div class="arc-user-chip" id="arc-user-chip">
+            <div class="arc-user-avatar">A</div>
+            <div class="arc-user-info"><span>AGENT</span><span class="arc-user-role">AGENT-LEVEL-3</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="arc-page" id="arc-page-content">
+        <!-- Conteúdo injetado via JS -->
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../data/evidence.js"></script>
+  <script>
+    (function() {
+      var user = window.ARC_Auth.getUser() || {};
+      var userEl = document.getElementById('arc-sidebar-user');
+      var chipEl = document.getElementById('arc-user-chip');
+      var statusEl = document.getElementById('arc-sidebar-status');
+      if (userEl) userEl.textContent = user.user || 'AGENT';
+      if (chipEl) {
+        var avatar = chipEl.querySelector('.arc-user-avatar');
+        if (avatar) avatar.textContent = (user.user || 'AGENT').charAt(0);
+        var info = chipEl.querySelector('.arc-user-info');
+        if (info) {
+          info.children[0].textContent = user.user || 'AGENT';
+          info.children[1].textContent = user.role || 'AGENT-LEVEL-3';
+        }
+      }
+      if (statusEl) {
+        var now = new Date();
+        statusEl.innerHTML = '<span class="arc-dot"></span> Sistema online • ' + now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      }
+      document.querySelectorAll('.arc-nav a').forEach(function(a) {
+        if (a.getAttribute('href') === 'evidence.html') a.classList.add('active');
+      });
+
+      var content = document.getElementById('arc-page-content');
+      var evidence = window.ARC_EVIDENCE || [];
+      var items = evidence.map(function(e) {
+        return '<div class="arc-evidence-item" onclick="openPhoto(\'' + e.id + '\')">' +
+          '<div class="arc-evidence-image">' +
+            '<div class="arc-photo-frame"><div style="width:100%;height:100%;background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%);display:flex;align-items:center;justify-content:center;color:#555;font-family:monospace;font-size:0.7rem;">[EVIDÊNCIA ARQUIVADA]</div></div>' +
+            '<div class="arc-photo-label">' + e.metadata.source + '</div>' +
+          '</div>' +
+          '<div class="arc-evidence-info">' +
+            '<div class="arc-evidence-id">' + e.id + '</div>' +
+            '<div class="arc-evidence-desc">' + e.description + '</div>' +
+            '<div class="arc-evidence-meta"><span>' + e.metadata.classification + '</span><span>' + e.metadata.date.split(' ')[0] + '</span></div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+
+      content.innerHTML =
+        '<div class="arc-page-header">' +
+        '  <div>' +
+        '    <div class="arc-page-title"><span class="icon" style="font-size:1.2rem;">📷</span> Photographic Evidence</div>' +
+        '    <div class="arc-page-subtitle">Fotografias e evidências visuais coletadas em operações de campo.</div>' +
+        '  </div>' +
+        '  <div class="arc-page-actions">' +
+        '    <button class="arc-btn-secondary">Nova entrada</button>' +
+        '  </div>' +
+        '</div>' +
+        '<div class="arc-evidence-grid">' + items + '</div>' +
+        '<div style="margin-top:24px;" class="arc-section-box arc-note-box">' +
+        '  <h4>Protocolo de Evidência</h4>' +
+        '  <p style="font-size:0.85rem;color:var(--arc-text-muted);">Clique em qualquer item para abrir a visualização ampliada com metadados completos. A reprodução de evidências sem autorização está sujeita a revisão de segurança.</p>' +
+        '</div>';
+    })();
+
+    window.openPhoto = function(id) {
+      var e = (window.ARC_EVIDENCE || []).find(function(x) { return x.id === id; });
+      if (!e) return;
+      var modal = document.createElement('div');
+      modal.className = 'arc-modal-overlay open';
+      modal.innerHTML =
+        '<div class="arc-modal">' +
+        '  <div class="arc-modal-header">' +
+        '    <div class="arc-modal-title"><span class="icon">📷</span> Evidence Viewer — ' + e.id + '</div>' +
+        '    <button class="arc-modal-close" onclick="closeModal(this)">Fechar</button>' +
+        '  </div>' +
+        '  <div class="arc-modal-body">' +
+        '    <div class="arc-modal-image">' +
+        '      <div class="arc-photo-frame" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#000;color:#555;font-family:monospace;font-size:0.7rem;">[IMAGEM AMPLIADA ARQUIVADA]</div>' +
+        '    </div>' +
+        '    <div class="arc-meta-grid">' +
+        '      <div class="arc-meta-item"><span class="label">Evidence ID</span><span class="value">' + e.id + '</span></div>' +
+        '      <div class="arc-meta-item"><span class="label">Title</span><span class="value">' + e.title + '</span></div>' +
+        '      <div class="arc-meta-item"><span class="label">Description</span><span class="value">' + e.description + '</span></div>' +
+        '      <div class="arc-meta-item"><span class="label">Source</span><span class="value">' + e.metadata.source + '</span></div>' +
+        '      <div class="arc-meta-item"><span class="label">Frame</span><span class="value">' + e.metadata.frame + '</span></div>' +
+        '      <div class="arc-meta-item"><span class="label">Date</span><span class="value">' + e.metadata.date + '</span></div>' +
+        '      <div class="arc-meta-item"><span class="label">Location</span><span class="value">' + e.metadata.location + '</span></div>' +
+        '      <div class="arc-meta-item"><span class="label">Classification</span><span class="value">' + e.metadata.classification + '</span></div>' +
+        '      <div class="arc-meta-item"><span class="label">Recovered By</span><span class="value">' + e.metadata.recoveredBy + '</span></div>' +
+        (e.entity ? '<div class="arc-meta-item"><span class="label">Related Entity</span><span class="value" style="color:var(--arc-accent);cursor:pointer;" onclick="closeModal(this);setTimeout(()=>location.href=\'entity.html?id=\'' + e.entity + '\'',300);">' + e.entity + '</span></div>' : '') +
+        '    </div>' +
+        '    <div style="margin-top:16px;padding:14px;background:var(--arc-navy-2);border:1px solid var(--arc-border);border-radius:4px;font-family:var(--arc-font-mono);font-size:0.75rem;color:var(--arc-text-muted);">' +
+        '      Visualização ampliada de evidência arquivada.<br>' +
+        '      <span style="color:var(--arc-accent);">DO NOT REPRODUCE THIS IMAGE WITHOUT AUTHORIZATION.</span>' +
+        '    </div>' +
+        '  </div>' +
+        '</div>';
+      document.body.appendChild(modal);
+      modal.addEventListener('click', function(ev) { if (ev.target === modal) closeModal(modal); });
+    };
+
+    window.closeModal = function(btn) {
+      var modal = btn.closest('.arc-modal-overlay');
+      modal.classList.remove('open');
+      setTimeout(function() { modal.remove(); }, 300);
+    };
+  </script>
+</body>
+</html>

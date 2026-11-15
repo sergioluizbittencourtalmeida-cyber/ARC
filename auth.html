@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authorization — A.R.C. Classified Archive</title>
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+  <div class="arc-auth-wrapper">
+    <div class="arc-auth-card">
+      <div class="arc-auth-header">
+        <div class="arc-auth-logo">ARC</div>
+        <div class="arc-auth-title">Access Authorization</div>
+        <div class="arc-auth-subtitle">CÓDIGO DE AUTORIZAÇÃO DE SEGUNDA ETAPA</div>
+      </div>
+      <div class="arc-auth-body">
+        <div id="arc-auth-error" class="arc-auth-error"></div>
+
+        <span class="arc-auth-step-label">ACCESS AUTHORIZATION CODE</span>
+        <p style="font-size: 0.8rem; color: var(--arc-text-muted); margin-bottom: 16px; font-family: var(--arc-font-mono);">
+          Your credentials have been verified. An additional authorization code is required to access restricted institutional records.
+        </p>
+
+        <div class="arc-form-group">
+          <label class="arc-form-label" for="arc-auth-code">Authorization Code</label>
+          <input type="text" id="arc-auth-code" class="arc-form-input" placeholder="ARC-____" autocomplete="off" maxlength="20">
+        </div>
+
+        <button type="button" id="arc-btn-verify" class="arc-btn-enter">VERIFY ACCESS</button>
+        <a href="signin.html" class="arc-btn-secondary" style="margin-top: 10px;">← Return to Sign In</a>
+        <a href="../index.html" class="arc-btn-secondary">Public Portal</a>
+      </div>
+      <div class="arc-auth-footer">
+        <p>Sistema interno da A.R.C. — Acesso restrito a pessoal autorizado.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="config/auth-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    (function() {
+      var inputCode = document.getElementById('arc-auth-code');
+      var btnVerify = document.getElementById('arc-btn-verify');
+      var errorEl = document.getElementById('arc-auth-error');
+
+      function showError(msg) {
+        errorEl.textContent = msg;
+        errorEl.classList.add('show');
+      }
+      function hideError() {
+        errorEl.classList.remove('show');
+      }
+
+      btnVerify.addEventListener('click', async function() {
+        hideError();
+        var code = inputCode.value.trim();
+        if (!code) {
+          showError('Insira o código de autorização.');
+          return;
+        }
+
+        var result = await window.ARC_Auth.loginStep2(code);
+        if (result.ok) {
+          window.location.href = 'classified/index.html';
+        } else {
+          showError(result.msg);
+          inputCode.value = '';
+          inputCode.focus();
+        }
+      });
+
+      inputCode.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') btnVerify.click();
+      });
+
+      inputCode.focus();
+    })();
+  </script>
+</body>
+</html>

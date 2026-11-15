@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — A.R.C. Classified Archive</title>
+  <meta name="description" content="Autenticação institucional — Acesso restrito ao arquivo classificado da A.R.C.">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+  <div class="arc-auth-wrapper">
+    <div class="arc-auth-card">
+      <div class="arc-auth-header">
+        <div class="arc-auth-logo">ARC</div>
+        <div class="arc-auth-title">A.R.C. — Sign In</div>
+        <div class="arc-auth-subtitle">CLASSIFIED ARCHIVE • AUTHENTICAÇÃO INSTITUCIONAL</div>
+      </div>
+      <div class="arc-auth-body">
+        <div id="arc-auth-error" class="arc-auth-error"></div>
+
+        <div class="arc-auth-step" id="arc-step-1">
+          <span class="arc-auth-step-label">ETAPA 1 — CREDENCIAIS INSTITUCIONAIS</span>
+
+          <div class="arc-form-group">
+            <label class="arc-form-label" for="arc-username">Username</label>
+            <input type="text" id="arc-username" class="arc-form-input" placeholder="Digite seu usuário institucional" autocomplete="username">
+            <div class="arc-auth-hint">Exemplo: agent.arc</div>
+          </div>
+
+          <div class="arc-form-group">
+            <label class="arc-form-label" for="arc-password">Password</label>
+            <input type="password" id="arc-password" class="arc-form-input" placeholder="••••••••" autocomplete="current-password">
+            <div class="arc-auth-hint">Sua senha será verificada contra os registros institucionais.</div>
+          </div>
+
+          <button type="button" id="arc-btn-enter" class="arc-btn-enter">ENTER</button>
+        </div>
+
+        <div class="arc-auth-step" id="arc-step-2" style="display: none;">
+          <span class="arc-auth-step-label">ETAPA 2 — CÓDIGO DE AUTORIZAÇÃO</span>
+          <p style="font-size: 0.8rem; color: var(--arc-text-muted); margin-bottom: 16px; font-family: var(--arc-font-mono);">
+            Your credentials have been verified. An additional authorization code is required to access restricted institutional records.
+          </p>
+
+          <div class="arc-form-group">
+            <label class="arc-form-label" for="arc-auth-code">ACCESS AUTHORIZATION CODE</label>
+            <input type="text" id="arc-auth-code" class="arc-form-input" placeholder="ARC-____" autocomplete="off" maxlength="20">
+            <div class="arc-auth-hint">Código de acesso de segunda etapa. Configurado pelo administrador do sistema.</div>
+          </div>
+
+          <button type="button" id="arc-btn-verify" class="arc-btn-enter">VERIFY ACCESS</button>
+        </div>
+
+        <div class="arc-divider">
+          <div class="arc-divider-line"></div>
+          <span>A.R.C. Institutional System</span>
+          <div class="arc-divider-line"></div>
+        </div>
+
+        <button type="button" id="arc-btn-back" class="arc-btn-secondary" style="display: none;">← Voltar à Etapa 1</button>
+        <a href="../index.html" class="arc-btn-secondary">Portal Público</a>
+      </div>
+      <div class="arc-auth-footer">
+        <p>Sistema interno da A.R.C. — Acesso restrito a pessoal autorizado.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="config/auth-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    (function() {
+      var step1 = document.getElementById('arc-step-1');
+      var step2 = document.getElementById('arc-step-2');
+      var btnEnter = document.getElementById('arc-btn-enter');
+      var btnVerify = document.getElementById('arc-btn-verify');
+      var btnBack = document.getElementById('arc-btn-back');
+      var inputUser = document.getElementById('arc-username');
+      var inputPass = document.getElementById('arc-password');
+      var inputCode = document.getElementById('arc-auth-code');
+      var errorEl = document.getElementById('arc-auth-error');
+
+      function showError(msg) {
+        errorEl.textContent = msg;
+        errorEl.classList.add('show');
+      }
+      function hideError() {
+        errorEl.classList.remove('show');
+      }
+      function setInputError(el, isError) {
+        if (isError) el.classList.add('error'); else el.classList.remove('error');
+      }
+
+      btnEnter.addEventListener('click', async function() {
+        hideError();
+        setInputError(inputUser, false);
+        setInputError(inputPass, false);
+
+        var user = inputUser.value.trim();
+        var pass = inputPass.value;
+        if (!user || !pass) {
+          showError('Preencha usuário e senha.');
+          return;
+        }
+
+        var result = await window.ARC_Auth.loginStep1(user, pass);
+        if (result.ok) {
+          step1.style.display = 'none';
+          step2.style.display = 'block';
+          btnBack.style.display = 'block';
+          inputCode.focus();
+        } else {
+          showError(result.msg);
+          setInputError(inputUser, true);
+          setInputError(inputPass, true);
+        }
+      });
+
+      btnVerify.addEventListener('click', async function() {
+        hideError();
+        setInputError(inputCode, false);
+
+        var code = inputCode.value.trim();
+        if (!code) {
+          showError('Insira o código de autorização.');
+          return;
+        }
+
+        var result = await window.ARC_Auth.loginStep2(code);
+        if (result.ok) {
+          window.location.href = 'classified/index.html';
+        } else {
+          showError(result.msg);
+          setInputError(inputCode, true);
+          inputCode.value = '';
+          inputCode.focus();
+        }
+      });
+
+      btnBack.addEventListener('click', function() {
+        step2.style.display = 'none';
+        step1.style.display = 'block';
+        btnBack.style.display = 'none';
+        hideError();
+        inputUser.focus();
+      });
+
+      // Enter nos campos
+      [inputUser, inputPass, inputCode].forEach(function(el) {
+        el.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            if (el === inputCode) btnVerify.click();
+            else if (el === inputPass) btnEnter.click();
+          }
+        });
+      });
+
+      inputUser.focus();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — A.R.C.</title>
+  <meta name="description" content="Canal de contato institucional da A.R.C. — Anomalous Research &amp; Containment.">
+  <link rel="stylesheet" href="css/public.css">
+</head>
+<body>
+
+  <div class="arc-scanline"></div>
+
+  <header class="arc-header">
+    <div class="arc-topbar">
+      <div class="arc-seal">SEL OFICIAL • A.R.C. • NÍVEL INSTITUCIONAL</div>
+      <div class="arc-date" id="arc-clock">—</div>
+    </div>
+    <nav class="arc-main-nav">
+      <div class="arc-nav-container">
+        <div class="arc-logo">
+          <div class="arc-logo-mark">ARC</div>
+          <div>
+            <div class="arc-logo-text">A.R.C.</div>
+            <div class="arc-logo-sub">Anomalous Research &amp; Containment</div>
+          </div>
+        </div>
+        <ul class="arc-nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="departments.html">Departments</a></li>
+          <li><a href="public-info.html">Public Information</a></li>
+          <li><a href="contact.html" class="active">Contact</a></li>
+        </ul>
+        <a href="signin.html" class="arc-btn-signin">SIGN IN</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="arc-container">
+    <section class="arc-section">
+      <div class="arc-section-header">
+        <div class="arc-badge arc-badge-public">Contato</div>
+        <div>
+          <h2>Contact</h2>
+          <p class="intro">Utilize os canais oficiais para entrar em contato com a A.R.C., solicitar informações públicas ou reportar ocorrências.</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+        <div>
+          <h3 style="color: var(--arc-navy); margin-bottom: 16px;">Formulário de Contato</h3>
+          <form id="arc-contact-form" style="display: flex; flex-direction: column; gap: 16px;">
+            <div class="arc-form-group">
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--arc-text); margin-bottom: 6px;">Nome completo</label>
+              <input type="text" required style="width: 100%; padding: 10px 12px; border: 1px solid var(--arc-border); border-radius: 6px; font-size: 0.95rem; font-family: var(--arc-font);">
+            </div>
+            <div class="arc-form-group">
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--arc-text); margin-bottom: 6px;">E-mail institucional ou pessoal</label>
+              <input type="email" required style="width: 100%; padding: 10px 12px; border: 1px solid var(--arc-border); border-radius: 6px; font-size: 0.95rem; font-family: var(--arc-font);">
+            </div>
+            <div class="arc-form-group">
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--arc-text); margin-bottom: 6px;">Assunto</label>
+              <select style="width: 100%; padding: 10px 12px; border: 1px solid var(--arc-border); border-radius: 6px; font-size: 0.95rem; font-family: var(--arc-font); background: #fff;">
+                <option>Informações públicas</option>
+                <option>Relatar ocorrência incomum</option>
+                <option>Solicitação de documentos</option>
+                <option>Outro</option>
+              </select>
+            </div>
+            <div class="arc-form-group">
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--arc-text); margin-bottom: 6px;">Mensagem</label>
+              <textarea required rows="5" style="width: 100%; padding: 10px 12px; border: 1px solid var(--arc-border); border-radius: 6px; font-size: 0.95rem; font-family: var(--arc-font); resize: vertical;"></textarea>
+            </div>
+            <button type="submit" class="arc-btn">Enviar Mensagem</button>
+          </form>
+          <div id="arc-contact-success" style="display: none; margin-top: 16px; padding: 14px; background: #dcfce7; border: 1px solid #86efac; border-radius: 6px; color: #166534; font-size: 0.85rem;">
+            Mensagem enviada com sucesso. Você receberá uma confirmação através dos canais oficiais.
+          </div>
+        </div>
+        <div style="background: var(--arc-surface); border: 1px solid var(--arc-border); border-radius: var(--radius); padding: 32px 24px; box-shadow: var(--shadow-sm);">
+          <h3 style="color: var(--arc-navy); margin-bottom: 20px;">Informações de Contato</h3>
+          <div style="margin-bottom: 20px;">
+            <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--arc-text-muted); font-family: var(--arc-font-mono); margin-bottom: 4px;">Gabinete Institucional</div>
+            <div style="font-size: 0.9rem; color: var(--arc-text); margin-bottom: 4px;">Sede da A.R.C. — Instalação Central</div>
+            <div style="font-size: 0.85rem; color: var(--arc-text-muted);">Atendimento por agendamento prévio</div>
+          </div>
+          <div style="margin-bottom: 20px;">
+            <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--arc-text-muted); font-family: var(--arc-font-mono); margin-bottom: 4px;">Central de Atendimento</div>
+            <div style="font-size: 0.9rem; color: var(--arc-text); font-family: var(--arc-font-mono); margin-bottom: 4px;">24 horas • 7 dias por semana</div>
+            <div style="font-size: 0.85rem; color: var(--arc-text-muted);">Linha dedicada a ocorrências incomuns</div>
+          </div>
+          <div style="margin-bottom: 20px;">
+            <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--arc-text-muted); font-family: var(--arc-font-mono); margin-bottom: 4px;">Relações Públicas</div>
+            <div style="font-size: 0.9rem; color: var(--arc-text);">Documentos públicos e solicitações institucionais</div>
+          </div>
+          <div style="padding: 16px; background: #f8fafc; border-radius: 6px; font-size: 0.8rem; color: var(--arc-text-muted);">
+            <p style="margin-bottom: 8px;"><strong>Aviso importante:</strong> Não utilize este canal para acessar documentos classificados. A área restrita exige autenticação institucional válida.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="arc-footer">
+    <div class="arc-footer-grid">
+      <div>
+        <h4>A.R.C.</h4>
+        <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.6; margin-bottom: 16px;">Anomalous Research &amp; Containment — Organização independente dedicada à investigação e contenção de fenômenos anômalos.</p>
+      </div>
+      <div>
+        <h4>Portal Público</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">Sobre Nós</a></li>
+          <li><a href="departments.html">Departamentos</a></li>
+          <li><a href="public-info.html">Informações Públicas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Canais Oficiais</h4>
+        <ul>
+          <li><a href="#">Central de Atendimento</a></li>
+          <li><a href="signin.html">Área Restrita (Sign In)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="arc-footer-bottom">
+      <div>© 2024 A.R.C. — Anomalous Research &amp; Containment.</div>
+      <div style="font-family: var(--arc-font-mono); font-size: 0.75rem;">Portal Público • v1.0.0</div>
+    </div>
+  </footer>
+
+  <script>
+    function updateClock() {
+      var now = new Date();
+      var el = document.getElementById('arc-clock');
+      if (el) el.textContent = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    document.getElementById('arc-contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      this.style.display = 'none';
+      document.getElementById('arc-contact-success').style.display = 'block';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entity Database — Classified Archive</title>
+  <link rel="stylesheet" href="../css/restricted.css">
+</head>
+<body class="arc-noise">
+
+  <div class="arc-app">
+    <aside class="arc-sidebar">
+      <div class="arc-sidebar-header">
+        <div class="arc-sidebar-logo">ARC</div>
+        <div>
+          <div class="arc-sidebar-title">CLASSIFIED ARCHIVE</div>
+          <div class="arc-sidebar-sub">SISTEMA INTERNO • NÍVEL 3</div>
+        </div>
+      </div>
+      <div class="arc-sidebar-user" id="arc-sidebar-user">AGENT</div>
+      <ul class="arc-nav">
+        <li><a href="index.html" class="nav-item"><span class="icon">▭</span> Dashboard</a></li>
+        <li><a href="entities.html" class="nav-item active"><span class="icon">⬡</span> Entity Database</a></li>
+        <li><a href="incidents.html" class="nav-item"><span class="icon">⚠</span> Incident Reports</a></li>
+        <li><a href="field-ops.html" class="nav-item"><span class="icon">▷</span> Field Operations</a></li>
+        <li><a href="research.html" class="nav-item"><span class="icon">🔬</span> Research Documents</a></li>
+        <li><a href="evidence.html" class="nav-item"><span class="icon">📷</span> Photographic Evidence</a></li>
+        <li><a href="personnel.html" class="nav-item"><span class="icon">👤</span> Personnel Records</a></li>
+        <li><a href="restricted.html" class="nav-item"><span class="icon">🔒</span> Restricted Files</a></li>
+        <li><a href="communications.html" class="nav-item"><span class="icon">💬</span> Internal Communications</a></li>
+      </ul>
+      <div class="arc-sidebar-footer">
+        <button class="arc-btn-logout" onclick="ARC_App.doLogout()">Sair do Sistema</button>
+        <div class="arc-sidebar-status" id="arc-sidebar-status"><span class="arc-dot"></span> Sistema online</div>
+      </div>
+    </aside>
+    <main class="arc-main">
+      <header class="arc-topbar">
+        <div class="arc-topbar-left">
+          <div class="arc-breadcrumb"><span id="arc-breadcrumb-text">ARC System</span> <span>▸</span> Entity Database</div>
+        </div>
+        <div class="arc-topbar-right">
+          <div class="arc-search">
+            <input type="text" id="arc-global-search" placeholder="Buscar entidades..." />
+          </div>
+          <div class="arc-notification" title="Notificações internas">
+            <span class="arc-badge-count" id="arc-notif-count">3</span>
+          </div>
+          <div class="arc-user-chip" id="arc-user-chip">
+            <div class="arc-user-avatar">A</div>
+            <div class="arc-user-info"><span>AGENT</span><span class="arc-user-role">AGENT-LEVEL-3</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="arc-page" id="arc-page-content">
+        <!-- Conteúdo injetado via JS -->
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../data/entities.js"></script>
+  <script>
+    (function() {
+      var user = window.ARC_Auth.getUser() || {};
+      var userEl = document.getElementById('arc-sidebar-user');
+      var chipEl = document.getElementById('arc-user-chip');
+      var statusEl = document.getElementById('arc-sidebar-status');
+      if (userEl) userEl.textContent = user.user || 'AGENT';
+      if (chipEl) {
+        var avatar = chipEl.querySelector('.arc-user-avatar');
+        if (avatar) avatar.textContent = (user.user || 'AGENT').charAt(0);
+        var info = chipEl.querySelector('.arc-user-info');
+        if (info) {
+          info.children[0].textContent = user.user || 'AGENT';
+          info.children[1].textContent = user.role || 'AGENT-LEVEL-3';
+        }
+      }
+      if (statusEl) {
+        var now = new Date();
+        statusEl.innerHTML = '<span class="arc-dot"></span> Sistema online • ' + now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      }
+      document.querySelectorAll('.arc-nav a').forEach(function(a) {
+        if (a.getAttribute('href') === 'entities.html') a.classList.add('active');
+      });
+
+      var content = document.getElementById('arc-page-content');
+      var entities = window.ARC_ENTITIES || [];
+      var search = (new URLSearchParams(window.location.search)).get('search') || '';
+      if (search) {
+        entities = entities.filter(function(e) {
+          var s = search.toLowerCase();
+          return (e.designation + ' ' + (e.name||'') + ' ' + e.classification + ' ' + (e.description||'')).toLowerCase().indexOf(s) !== -1;
+        });
+        document.getElementById('arc-global-search').value = search;
+        document.getElementById('arc-breadcrumb-text').textContent = 'Resultado da busca';
+      }
+
+      var cards = entities.map(function(e) {
+        return '<div class="arc-card" onclick="location.href=\'entity.html?id=' + e.id + '\'" style="cursor:pointer;">' +
+          '<div class="arc-card-header">' +
+            '<div class="arc-card-code">' + e.id + '</div>' +
+          '</div>' +
+          '<div class="arc-card-title">' + (e.name || e.designation) + '</div>' +
+          '<div class="arc-card-meta">' +
+            window.ARC_App.threatBadge(e.threat) + ' ' + window.ARC_App.statusBadge(e.status) +
+          '</div>' +
+          '<div class="arc-card-description">' + (e.description || 'Sem descrição disponível.').slice(0, 160) + (e.description && e.description.length > 160 ? '…' : '') + '</div>' +
+          '<div class="arc-card-footer">' +
+            '<span>' + e.firstIdentified + '</span>' +
+            '<span style="color:var(--arc-accent);font-weight:700;">Abrir registro ▸</span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+
+      content.innerHTML =
+        '<div class="arc-page-header">' +
+        '  <div>' +
+        '    <div class="arc-page-title"><span class="icon" style="font-size:1.2rem;">⬡</span> Entity Database</div>' +
+        '    <div class="arc-page-subtitle">Banco de dados de entidades anômalas identificadas pela A.R.C.</div>' +
+        '  </div>' +
+        '  <div class="arc-page-actions">' +
+        '    <a href="entity.html?id=' + (entities[0] ? entities[0].id : '') + '" class="arc-btn-primary">Nova visualização</a>' +
+        '  </div>' +
+        '</div>' +
+        '<div class="arc-grid">' + cards + '</div>' +
+        (entities.length === 0 ? '<div class="arc-empty"><h3>Nenhuma entidade encontrada</h3><p>Não há registros correspondentes à busca.</p></div>' : '');
+    })();
+  </script>
+</body>
+</html>

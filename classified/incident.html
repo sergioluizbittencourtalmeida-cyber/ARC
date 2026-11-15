@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Incident Report — Classified Archive</title>
+  <link rel="stylesheet" href="../css/restricted.css">
+</head>
+<body class="arc-noise">
+
+  <div class="arc-app">
+    <aside class="arc-sidebar">
+      <div class="arc-sidebar-header">
+        <div class="arc-sidebar-logo">ARC</div>
+        <div>
+          <div class="arc-sidebar-title">CLASSIFIED ARCHIVE</div>
+          <div class="arc-sidebar-sub">SISTEMA INTERNO • NÍVEL 3</div>
+        </div>
+      </div>
+      <div class="arc-sidebar-user" id="arc-sidebar-user">AGENT</div>
+      <ul class="arc-nav">
+        <li><a href="index.html" class="nav-item"><span class="icon">▭</span> Dashboard</a></li>
+        <li><a href="entities.html" class="nav-item"><span class="icon">⬡</span> Entity Database</a></li>
+        <li><a href="incidents.html" class="nav-item active"><span class="icon">⚠</span> Incident Reports</a></li>
+        <li><a href="field-ops.html" class="nav-item"><span class="icon">▷</span> Field Operations</a></li>
+        <li><a href="research.html" class="nav-item"><span class="icon">🔬</span> Research Documents</a></li>
+        <li><a href="evidence.html" class="nav-item"><span class="icon">📷</span> Photographic Evidence</a></li>
+        <li><a href="personnel.html" class="nav-item"><span class="icon">👤</span> Personnel Records</a></li>
+        <li><a href="restricted.html" class="nav-item"><span class="icon">🔒</span> Restricted Files</a></li>
+        <li><a href="communications.html" class="nav-item"><span class="icon">💬</span> Internal Communications</a></li>
+      </ul>
+      <div class="arc-sidebar-footer">
+        <button class="arc-btn-logout" onclick="ARC_App.doLogout()">Sair do Sistema</button>
+        <div class="arc-sidebar-status" id="arc-sidebar-status"><span class="arc-dot"></span> Sistema online</div>
+      </div>
+    </aside>
+    <main class="arc-main">
+      <header class="arc-topbar">
+        <div class="arc-topbar-left">
+          <div class="arc-breadcrumb"><span id="arc-breadcrumb-text">ARC System</span> <span>▸</span> Incident Reports <span>▸</span> <span id="arc-incident-id">—</span></div>
+        </div>
+        <div class="arc-topbar-right">
+          <div class="arc-user-chip" id="arc-user-chip">
+            <div class="arc-user-avatar">A</div>
+            <div class="arc-user-info"><span>AGENT</span><span class="arc-user-role">AGENT-LEVEL-3</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="arc-page" id="arc-page-content">
+        <!-- Conteúdo do incidente injetado via JS -->
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../data/incidents.js"></script>
+  <script>
+    (function() {
+      var user = window.ARC_Auth.getUser() || {};
+      var userEl = document.getElementById('arc-sidebar-user');
+      var chipEl = document.getElementById('arc-user-chip');
+      var statusEl = document.getElementById('arc-sidebar-status');
+      if (userEl) userEl.textContent = user.user || 'AGENT';
+      if (chipEl) {
+        var avatar = chipEl.querySelector('.arc-user-avatar');
+        if (avatar) avatar.textContent = (user.user || 'AGENT').charAt(0);
+        var info = chipEl.querySelector('.arc-user-info');
+        if (info) {
+          info.children[0].textContent = user.user || 'AGENT';
+          info.children[1].textContent = user.role || 'AGENT-LEVEL-3';
+        }
+      }
+      if (statusEl) {
+        var now = new Date();
+        statusEl.innerHTML = '<span class="arc-dot"></span> Sistema online • ' + now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      }
+      document.querySelectorAll('.arc-nav a').forEach(function(a) {
+        if (a.getAttribute('href') === 'incidents.html') a.classList.add('active');
+      });
+
+      var params = new URLSearchParams(window.location.search);
+      var id = params.get('id');
+      var inc = window.ARC_INCIDENTS.find(function(i) { return i.id === id; });
+      var content = document.getElementById('arc-page-content');
+      var idEl = document.getElementById('arc-incident-id');
+
+      if (!inc) {
+        content.innerHTML = '<div class="arc-empty"><h3>Relatório não encontrado</h3><p>O protocolo solicitado não existe ou não está disponível para seu nível de autorização.</p><a href="incidents.html" class="arc-btn-secondary">Voltar aos relatórios</a></div>';
+        return;
+      }
+      idEl.textContent = inc.id;
+
+      var personnelHtml = (inc.personnel || []).map(function(p) {
+        return '<span style="background:var(--arc-navy-2);border:1px solid var(--arc-border);border-radius:4px;padding:2px 8px;margin-right:6px;margin-bottom:6px;display:inline-block;font-size:0.75rem;color:#fff;font-family:var(--arc-font-mono);">' + p + '</span>';
+      }).join('');
+
+      content.innerHTML =
+        '<div class="arc-page-header">' +
+        '  <div>' +
+        '    <div class="arc-page-title">' +
+        '      <div style="display:flex;flex-direction:column;">' +
+        '        <div style="font-weight:800;color:#fff;">Incident Report</div>' +
+        '        <div style="font-family:var(--arc-font-mono);font-size:0.75rem;color:var(--arc-accent);margin-top:2px;">PROTOCOL: ' + inc.id + '</div>' +
+        '      </div>' +
+        '    </div>' +
+        '    <div class="arc-page-subtitle">Relatório oficial de ocorrência • Arquivo Classificado</div>' +
+        '  </div>' +
+        '  <div class="arc-page-actions">' +
+        '    <a href="incidents.html" class="arc-btn-secondary">Voltar aos relatórios</a>' +
+        '  </div>' +
+        '</div>' +
+
+        '<div class="arc-document">' +
+        '  <div class="arc-doc-header">' +
+        '    <div>' +
+        '      <div class="arc-doc-org">A.R.C. — INTERNAL INCIDENT REPORT</div>' +
+        '      <div class="arc-doc-title">' + inc.title + '</div>' +
+        '    </div>' +
+        '    <div class="arc-doc-code">' + inc.id + '</div>' +
+        '  </div>' +
+        '  <div class="arc-doc-meta">' +
+        '    <span>LOCATION: ' + inc.location + '</span>' +
+        '    <span>DATE: ' + inc.date + '</span>' +
+        '    <span>STATUS: ' + inc.status + '</span>' +
+        '    <span>CLASSIFICATION: ' + inc.classification + '</span>' +
+        '    <span>AUTHOR: ' + inc.author + '</span>' +
+        '    <span>DEPARTMENT: ' + inc.department + '</span>' +
+        '  </div>' +
+        '  <div class="arc-doc-body">' +
+        '    <p><strong>SUMMARY:</strong> ' + inc.summary + '</p>' +
+        '    <p><strong>DETAILS:</strong> ' + inc.details + '</p>' +
+        '    <p><strong>EVIDENCE:</strong> ' + inc.evidence + '</p>' +
+        '    <p><strong>PERSONNEL INVOLVED:</strong> ' + inc.personnel.join(', ') + '</p>' +
+        '    <p><strong>OUTCOME:</strong> ' + inc.outcome + '</p>' +
+        '  </div>' +
+        '  <div class="arc-doc-footer">' +
+        '    <div style="display:flex;flex-direction:column;gap:4px;">' +
+        '      <span style="font-weight:700;color:#000;">Filed by:</span>' +
+        '      <div class="arc-doc-signature">' + inc.author + '</div>' +
+        '      <span style="font-family:var(--arc-font-mono);font-size:0.7rem;color:#333;">' + inc.department + ' • ' + inc.date + '</span>' +
+        '    </div>' +
+        '    <div style="display:flex;flex-direction:column;gap:4px;">' +
+        '      <span style="font-weight:700;color:#000;">Classification:</span>' +
+        '      <span style="font-family:var(--arc-font-mono);font-size:0.75rem;font-weight:800;">' + inc.classification + '</span>' +
+        '    </div>' +
+        '  </div>' +
+        '</div>' +
+
+        '<div style="margin-top:24px;" class="arc-section-box">' +
+        '  <h4>Related Personnel</h4>' +
+        '  <div>' + personnelHtml + '</div>' +
+        '</div>' +
+
+        '<div style="margin-top:20px;text-align:right;">' +
+        '  <a href="incidents.html" class="arc-btn-secondary">Voltar aos relatórios</a>' +
+        '</div>';
+    })();
+  </script>
+</body>
+</html>

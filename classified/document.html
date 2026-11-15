@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Viewer — Classified Archive</title>
+  <link rel="stylesheet" href="../css/restricted.css">
+</head>
+<body class="arc-noise">
+
+  <div class="arc-app">
+    <aside class="arc-sidebar">
+      <div class="arc-sidebar-header">
+        <div class="arc-sidebar-logo">ARC</div>
+        <div>
+          <div class="arc-sidebar-title">CLASSIFIED ARCHIVE</div>
+          <div class="arc-sidebar-sub">SISTEMA INTERNO • NÍVEL 3</div>
+        </div>
+      </div>
+      <div class="arc-sidebar-user" id="arc-sidebar-user">AGENT</div>
+      <ul class="arc-nav">
+        <li><a href="index.html" class="nav-item"><span class="icon">▭</span> Dashboard</a></li>
+        <li><a href="entities.html" class="nav-item"><span class="icon">⬡</span> Entity Database</a></li>
+        <li><a href="incidents.html" class="nav-item"><span class="icon">⚠</span> Incident Reports</a></li>
+        <li><a href="field-ops.html" class="nav-item"><span class="icon">▷</span> Field Operations</a></li>
+        <li><a href="research.html" class="nav-item"><span class="icon">🔬</span> Research Documents</a></li>
+        <li><a href="evidence.html" class="nav-item"><span class="icon">📷</span> Photographic Evidence</a></li>
+        <li><a href="personnel.html" class="nav-item"><span class="icon">👤</span> Personnel Records</a></li>
+        <li><a href="restricted.html" class="nav-item"><span class="icon">🔒</span> Restricted Files</a></li>
+        <li><a href="communications.html" class="nav-item"><span class="icon">💬</span> Internal Communications</a></li>
+      </ul>
+      <div class="arc-sidebar-footer">
+        <button class="arc-btn-logout" onclick="ARC_App.doLogout()">Sair do Sistema</button>
+        <div class="arc-sidebar-status" id="arc-sidebar-status"><span class="arc-dot"></span> Sistema online</div>
+      </div>
+    </aside>
+    <main class="arc-main">
+      <header class="arc-topbar">
+        <div class="arc-topbar-left">
+          <div class="arc-breadcrumb"><span id="arc-breadcrumb-text">ARC System</span> <span>▸</span> Research Documents <span>▸</span> <span id="arc-doc-protocol">—</span></div>
+        </div>
+        <div class="arc-topbar-right">
+          <div class="arc-user-chip" id="arc-user-chip">
+            <div class="arc-user-avatar">A</div>
+            <div class="arc-user-info"><span>AGENT</span><span class="arc-user-role">AGENT-LEVEL-3</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="arc-page" id="arc-page-content">
+        <!-- Conteúdo do documento injetado via JS -->
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../data/documents.js"></script>
+  <script>
+    (function() {
+      var user = window.ARC_Auth.getUser() || {};
+      var userEl = document.getElementById('arc-sidebar-user');
+      var chipEl = document.getElementById('arc-user-chip');
+      var statusEl = document.getElementById('arc-sidebar-status');
+      if (userEl) userEl.textContent = user.user || 'AGENT';
+      if (chipEl) {
+        var avatar = chipEl.querySelector('.arc-user-avatar');
+        if (avatar) avatar.textContent = (user.user || 'AGENT').charAt(0);
+        var info = chipEl.querySelector('.arc-user-info');
+        if (info) {
+          info.children[0].textContent = user.user || 'AGENT';
+          info.children[1].textContent = user.role || 'AGENT-LEVEL-3';
+        }
+      }
+      if (statusEl) {
+        var now = new Date();
+        statusEl.innerHTML = '<span class="arc-dot"></span> Sistema online • ' + now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      }
+      document.querySelectorAll('.arc-nav a').forEach(function(a) {
+        if (a.getAttribute('href') === 'research.html' || a.getAttribute('href') === 'restricted.html') {
+          // não marca ativo aqui; deixamos marcado pela página de origem se aplicável
+        }
+      });
+
+      var params = new URLSearchParams(window.location.search);
+      var id = params.get('id');
+      var doc = window.ARC_DOCUMENTS.find(function(d) { return d.id === id; });
+      var content = document.getElementById('arc-page-content');
+      var protoEl = document.getElementById('arc-doc-protocol');
+
+      if (!doc) {
+        content.innerHTML = '<div class="arc-empty"><h3>Documento não encontrado</h3><p>O protocolo solicitado não existe ou não está disponível para seu nível de autorização.</p><a href="research.html" class="arc-btn-secondary">Voltar aos documentos</a></div>';
+        return;
+      }
+      protoEl.textContent = doc.protocol;
+
+      // Aplica redações simples: substitui colchetes [REDACTADO] por tarja
+      function applyRedactions(text) {
+        return text.replace(/\[REDACTADO\]/g, '<span class="arc-redacted" data-reveal="[INFORMAÇÃO CENSURADA]">██████████████</span>');
+      }
+
+      var contentHtml = doc.content.map(function(p) {
+        return '<p>' + applyRedactions(p) + '</p>';
+      }).join('');
+
+      var redactionsHtml = (doc.redactions || []).map(function(r) {
+        return '<div style="background:var(--arc-panel);border:1px solid var(--arc-border);border-left:3px solid #000;border-radius:4px;padding:10px 14px;margin-bottom:8px;font-size:0.8rem;color:var(--arc-text-muted);font-family:var(--arc-font-mono);">' +
+          '<span style="color:#000;font-weight:800;">CENSURADO:</span> ' + applyRedactions(r) +
+        '</div>';
+      }).join('');
+
+      content.innerHTML =
+        '<div class="arc-page-header">' +
+        '  <div>' +
+        '    <div class="arc-page-title">' +
+        '      <div style="display:flex;flex-direction:column;">' +
+        '        <div style="font-weight:800;color:#fff;">Document Viewer</div>' +
+        '        <div style="font-family:var(--arc-font-mono);font-size:0.75rem;color:var(--arc-accent);margin-top:2px;">PROTOCOL: ' + doc.protocol + '</div>' +
+        '      </div>' +
+        '    </div>' +
+        '    <div class="arc-page-subtitle">Documento institucional • Arquivo Classificado</div>' +
+        '  </div>' +
+        '  <div class="arc-page-actions">' +
+        '    <a href="research.html" class="arc-btn-secondary">Voltar aos documentos</a>' +
+        '  </div>' +
+        '</div>' +
+
+        '<div class="arc-document">' +
+        '  <div class="arc-doc-header">' +
+        '    <div>' +
+        '      <div class="arc-doc-org">A.R.C. — INTERNAL DOCUMENT</div>' +
+        '      <div class="arc-doc-title">' + doc.title + '</div>' +
+        '    </div>' +
+        '    <div class="arc-doc-code">' + doc.protocol + '</div>' +
+        '  </div>' +
+        '  <div class="arc-doc-meta">' +
+        '    <span>DATE: ' + doc.date + '</span>' +
+        '    <span>AUTHOR: ' + doc.author + '</span>' +
+        '    <span>DEPARTMENT: ' + doc.department + '</span>' +
+        '    <span style="font-weight:800;">CLASSIFICATION: ' + doc.classification + '</span>' +
+        '  </div>' +
+        '  <div class="arc-doc-body">' +
+        contentHtml +
+        '  </div>' +
+        (doc.redactions && doc.redactions.length ? (
+          '<div style="margin-top:24px;border-top:1px solid #cbd5e1;padding-top:16px;">' +
+          '<div style="font-family:var(--arc-font-mono);font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--arc-text-muted);margin-bottom:8px;">Trechos Censurados</div>' +
+          redactionsHtml +
+          '</div>'
+        ) : '') +
+        (doc.notes ? (
+          '<div style="margin-top:24px;padding:14px;background:rgba(251,191,36,0.1);border:1px solid var(--arc-warn);border-left:4px solid var(--arc-warn);border-radius:4px;color:#f59e0b;font-size:0.8rem;line-height:1.7;font-family:var(--arc-font-mono);">' +
+          '<span style="font-weight:800;text-transform:uppercase;letter-spacing:0.5px;">ANOTAÇÃO MANUSCRITA:</span> ' + doc.notes +
+          '</div>'
+        ) : '') +
+        '  <div class="arc-doc-footer">' +
+        '    <div style="display:flex;flex-direction:column;gap:4px;">' +
+        '      <span style="font-weight:700;color:#000;">Signed:</span>' +
+        '      <div class="arc-doc-signature">' + doc.signature + '</div>' +
+        '    </div>' +
+        '    <div style="font-family:var(--arc-font-mono);font-size:0.7rem;color:#333;">' + doc.department + ' • ' + doc.date + '</span>' +
+        '  </div>' +
+        '</div>' +
+
+        '<div style="margin-top:24px;text-align:right;">' +
+        '  <a href="research.html" class="arc-btn-secondary">Voltar aos documentos</a>' +
+        '</div>';
+    })();
+  </script>
+</body>
+</html>

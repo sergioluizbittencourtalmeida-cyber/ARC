@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste SHA-256 — A.R.C.</title>
+</head>
+<body>
+  <h2>Teste de Hash SHA-256</h2>
+  <p id="r1">Senha arc2024: aguardando...</p>
+  <p id="r2">Código ARC-7741: aguardando...</p>
+  <script src="config/auth-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    (async function() {
+      var h1 = await window.ARC_Auth.loginStep1('agent.arc', 'arc2024');
+      document.getElementById('r1').textContent = 'Senha arc2024: ' + (h1.ok ? 'OK ✅' : 'FALHOU ❌ - ' + h1.msg);
+      if (h1.ok) {
+        var h2 = await window.ARC_Auth.loginStep2('ARC-7741');
+        document.getElementById('r2').textContent = 'Código ARC-7741: ' + (h2.ok ? 'OK ✅' : 'FALHOU ❌ - ' + h2.msg);
+      }
+    })();
+  </script>
+</body>
+</html>

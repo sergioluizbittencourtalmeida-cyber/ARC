@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internal Communications — Classified Archive</title>
+  <link rel="stylesheet" href="../css/restricted.css">
+</head>
+<body class="arc-noise">
+
+  <div class="arc-app">
+    <aside class="arc-sidebar">
+      <div class="arc-sidebar-header">
+        <div class="arc-sidebar-logo">ARC</div>
+        <div>
+          <div class="arc-sidebar-title">CLASSIFIED ARCHIVE</div>
+          <div class="arc-sidebar-sub">SISTEMA INTERNO • NÍVEL 3</div>
+        </div>
+      </div>
+      <div class="arc-sidebar-user" id="arc-sidebar-user">AGENT</div>
+      <ul class="arc-nav">
+        <li><a href="index.html" class="nav-item"><span class="icon">▭</span> Dashboard</a></li>
+        <li><a href="entities.html" class="nav-item"><span class="icon">⬡</span> Entity Database</a></li>
+        <li><a href="incidents.html" class="nav-item"><span class="icon">⚠</span> Incident Reports</a></li>
+        <li><a href="field-ops.html" class="nav-item"><span class="icon">▷</span> Field Operations</a></li>
+        <li><a href="research.html" class="nav-item"><span class="icon">🔬</span> Research Documents</a></li>
+        <li><a href="evidence.html" class="nav-item"><span class="icon">📷</span> Photographic Evidence</a></li>
+        <li><a href="personnel.html" class="nav-item"><span class="icon">👤</span> Personnel Records</a></li>
+        <li><a href="restricted.html" class="nav-item"><span class="icon">🔒</span> Restricted Files</a></li>
+        <li><a href="communications.html" class="nav-item active"><span class="icon">💬</span> Internal Communications</a></li>
+      </ul>
+      <div class="arc-sidebar-footer">
+        <button class="arc-btn-logout" onclick="ARC_App.doLogout()">Sair do Sistema</button>
+        <div class="arc-sidebar-status" id="arc-sidebar-status"><span class="arc-dot"></span> Sistema online</div>
+      </div>
+    </aside>
+    <main class="arc-main">
+      <header class="arc-topbar">
+        <div class="arc-topbar-left">
+          <div class="arc-breadcrumb"><span id="arc-breadcrumb-text">ARC System</span> <span>▸</span> Internal Communications</div>
+        </div>
+        <div class="arc-topbar-right">
+          <div class="arc-user-chip" id="arc-user-chip">
+            <div class="arc-user-avatar">A</div>
+            <div class="arc-user-info"><span>AGENT</span><span class="arc-user-role">AGENT-LEVEL-3</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="arc-page" id="arc-page-content">
+        <!-- Conteúdo injetado via JS -->
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../data/documents.js"></script>
+  <script src="../data/personnel.js"></script>
+  <script>
+    (function() {
+      var user = window.ARC_Auth.getUser() || {};
+      var userEl = document.getElementById('arc-sidebar-user');
+      var chipEl = document.getElementById('arc-user-chip');
+      var statusEl = document.getElementById('arc-sidebar-status');
+      if (userEl) userEl.textContent = user.user || 'AGENT';
+      if (chipEl) {
+        var avatar = chipEl.querySelector('.arc-user-avatar');
+        if (avatar) avatar.textContent = (user.user || 'AGENT').charAt(0);
+        var info = chipEl.querySelector('.arc-user-info');
+        if (info) {
+          info.children[0].textContent = user.user || 'AGENT';
+          info.children[1].textContent = user.role || 'AGENT-LEVEL-3';
+        }
+      }
+      if (statusEl) {
+        var now = new Date();
+        statusEl.innerHTML = '<span class="arc-dot"></span> Sistema online • ' + now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      }
+      document.querySelectorAll('.arc-nav a').forEach(function(a) {
+        if (a.getAttribute('href') === 'communications.html') a.classList.add('active');
+      });
+
+      // Comunicações internas fictícias (memos, alertas, trocas de mensagem)
+      var messages = [
+        {
+          id: 'COM-001',
+          from: 'Analista S. Rocha (SegInfo)',
+          to: 'Todos os funcionários — Nível 3+',
+          date: '2024-10-05 09:17',
+          subject: 'Solicitação de Restrição de Acesso — ARC-001',
+          body: 'Foi detectado acesso incomum a arquivos da entidade ARC-001 fora do horário expediente. Solicito que o acesso aos registros de ARC-001 seja restrito a pessoal de nível 3 a partir de hoje. A origem dos acessos não identificados está sendo investigada.',
+          classification: 'INTERNAL USE ONLY',
+          tags: ['segurança', 'acesso', 'ARC-001']
+        },
+        {
+          id: 'COM-002',
+          from: 'Dr. M. Varela (Direção)',
+          to: 'Analista S. Rocha',
+          date: '2024-10-05 11:03',
+          subject: 'Re: Solicitação de Restrição de Acesso',
+          body: 'Solicitação aprovada. Implementar restrição imediatamente. Além disso, lembramos que o documento ARC-DOC-003 não deve ser acessado de terminais de rede aberta, conforme memorando anterior.',
+          classification: 'INTERNAL USE ONLY',
+          tags: ['aprovação', 'ARC-DOC-003']
+        },
+        {
+          id: 'COM-003',
+          from: 'Sistema Automático (ARC-SYS)',
+          to: 'Segurança da Informação',
+          date: '2024-10-09 14:22',
+          subject: 'Atualização de Protocolo de Contenção',
+          body: 'Protocolo de contenção padrão revisado. Nova versão publicada no módulo Research Documents. Todas as equipes devem revisar as alterações até 2024-10-15.',
+          classification: 'INTERNAL USE ONLY',
+          tags: ['protocolo', 'atualização']
+        },
+        {
+          id: 'COM-004',
+          from: 'Agente S. Moreira (Campo)',
+          to: 'Comandante R. Silva',
+          date: '2024-10-10 06:44',
+          subject: 'Relatório — Setor 7, turno noturno',
+          body: 'Durante ronda no corredor C, observei figura indistinta próxima à porta de contenção Delta. Não houve acionamento de alarme. Câmeras não registraram presença. Solicito revisão dos logs de acesso da instalação.',
+          classification: 'CONFIDENTIAL',
+          tags: ['campo', 'setor 7', 'figura']
+        },
+        {
+          id: 'COM-005',
+          from: 'Analista S. Rocha (SegInfo)',
+          to: 'Dr. M. Varela',
+          date: '2024-10-10 08:12',
+          subject: 'Acessos não identificados — Follow-up',
+          body: 'Os logs oficiais não registram acessos fora do expediente ao arquivo ARC-001, apesar de múltiplos relatos de funcionários. Isso é contraditório com os alertas do sistema de monitoramento. Recomendo auditoria imediata dos terminais de nível 3.',
+          classification: 'SECRET',
+          tags: ['contradição', 'logs', 'auditoria']
+        },
+        {
+          id: 'COM-006',
+          from: 'Dr. M. Varela (Direção)',
+          to: 'Todos — Nível 4',
+          date: '2024-10-11 07:55',
+          subject: 'Não acessar ARC-DOC-003 — Reforço',
+          body: 'Reforço a diretriz: o documento ARC-DOC-003 não deve ser acessado por nenhum terminal fora da sala segura do Diretor. Qualquer violação será tratada como incidente de segurança crítica.',
+          classification: 'TOP SECRET',
+          tags: ['ARC-DOC-003', 'nível 4', 'segurança crítica']
+        }
+      ];
+
+      var content = document.getElementById('arc-page-content');
+      var items = messages.map(function(m) {
+        var cls = m.classification;
+        var badgeClass = {
+          'PUBLIC': 'arc-class-public',
+          'INTERNAL USE ONLY': 'arc-class-internal',
+          'CONFIDENTIAL': 'arc-class-confidential',
+          'SECRET': 'arc-class-secret',
+          'TOP SECRET': 'arc-class-topsecret'
+        }[cls] || 'arc-class-internal';
+        return '<div class="arc-card" style="border-left:3px solid var(--arc-accent);">' +
+          '<div class="arc-card-header" style="align-items:flex-start;">' +
+            '<div style="font-size:0.85rem;font-weight:800;color:#fff;">' + m.subject + '</div>' +
+            '<div style="margin-left:auto;text-align:right;display:flex;flex-direction:column;gap:2px;">' +
+              '<div class="arc-class ' + badgeClass + '" style="font-size:0.65rem;">' + cls + '</div>' +
+              '<div style="font-family:var(--arc-font-mono);font-size:0.7rem;color:var(--arc-text-muted);">' + m.date + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="arc-card-meta" style="font-size:0.75rem;">' +
+            '<span style="font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:0.3px;">From:</span> ' + m.from + ' &bull;' +
+            '<span style="font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:0.3px;">To:</span> ' + m.to +
+          '</div>' +
+          '<div class="arc-card-description" style="font-size:0.85rem;line-height:1.7;color:var(--arc-text-muted);margin-top:8px;">' + m.body + '</div>' +
+          '<div class="arc-card-footer" style="margin-top:10px;">' +
+            '<span style="font-family:var(--arc-font-mono);font-size:0.7rem;">ID: ' + m.id + '</span>' +
+            '<span style="font-family:var(--arc-font-mono);font-size:0.7rem;color:var(--arc-accent);margin-left:12px;">' + m.tags.join(' • ') + '</span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+
+      content.innerHTML =
+        '<div class="arc-page-header">' +
+        '  <div>' +
+        '    <div class="arc-page-title"><span class="icon" style="font-size:1.2rem;">💬</span> Internal Communications</div>' +
+        '    <div class="arc-page-subtitle">Mensagens internas, memorandos e comunicações entre departamentos.</div>' +
+        '  </div>' +
+        '  <div class="arc-page-actions">' +
+        '    <button class="arc-btn-secondary">Nova mensagem</button>' +
+        '  </div>' +
+        '</div>' +
+        '<div class="arc-grid" style="grid-template-columns: 1fr;">' + items + '</div>' +
+        '<div style="margin-top:24px;" class="arc-section-box arc-warning-box">' +
+        '  <h4>Aviso de Comunicação Interna</h4>' +
+        '  <p style="font-size:0.85rem;color:#fca5a5;">Algumas comunicações contêm informações contraditórias com registros oficiais. Relatórios de inconsistência devem ser encaminhados ao departamento de Segurança da Informação.</p>' +
+        '</div>';
+    })();
+  </script>
+</body>
+</html>

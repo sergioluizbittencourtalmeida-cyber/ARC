@@ -1,0 +1,234 @@
+/* ============================================================================
+   A.R.C. — PÁGINAS DE AUTENTICAÇÃO
+   ============================================================================ */
+
+:root {
+  --arc-navy: #0b2545;
+  --arc-navy-dark: #081a2f;
+  --arc-surface: #ffffff;
+  --arc-text: #1e293b;
+  --arc-text-muted: #475569;
+  --arc-border: #cbd5e1;
+  --arc-accent: #0f6b9e;
+  --arc-danger: #7f1d1d;
+  --arc-font: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  --arc-font-mono: "Consolas", "Monaco", monospace;
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: #f1f5f9;
+  color: var(--arc-text);
+  font-family: var(--arc-font);
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.arc-auth-wrapper {
+  width: 100%;
+  max-width: 420px;
+}
+
+.arc-auth-card {
+  background: var(--arc-surface);
+  border: 1px solid var(--arc-border);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  overflow: hidden;
+}
+
+.arc-auth-header {
+  background: var(--arc-navy);
+  color: #fff;
+  padding: 32px;
+  text-align: center;
+}
+
+.arc-auth-logo {
+  width: 48px;
+  height: 48px;
+  background: #fff;
+  color: var(--arc-navy);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.25rem;
+  margin: 0 auto 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+.arc-auth-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.arc-auth-subtitle {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-family: var(--arc-font-mono);
+}
+
+.arc-auth-body {
+  padding: 32px;
+}
+
+.arc-auth-step {
+  margin-bottom: 24px;
+}
+
+.arc-auth-step-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--arc-text-muted);
+  margin-bottom: 12px;
+  display: block;
+  font-family: var(--arc-font-mono);
+}
+
+.arc-form-group {
+  margin-bottom: 20px;
+}
+
+.arc-form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--arc-text);
+  margin-bottom: 8px;
+}
+
+.arc-form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--arc-border);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: var(--arc-font-mono);
+  color: var(--arc-text);
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.arc-form-input:focus {
+  outline: none;
+  border-color: var(--arc-accent);
+  box-shadow: 0 0 0 3px rgba(15, 107, 158, 0.1);
+}
+
+.arc-form-input.error {
+  border-color: var(--arc-danger);
+}
+
+.arc-auth-hint {
+  font-size: 0.75rem;
+  color: var(--arc-text-muted);
+  margin-top: 6px;
+  font-family: var(--arc-font-mono);
+}
+
+.arc-auth-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: var(--arc-danger);
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-family: var(--arc-font-mono);
+  margin-bottom: 20px;
+  display: none;
+}
+
+.arc-auth-error.show {
+  display: block;
+}
+
+.arc-auth-footer {
+  padding: 24px 32px;
+  border-top: 1px solid var(--arc-border);
+  background: #f8fafc;
+  text-align: center;
+}
+
+.arc-auth-footer p {
+  font-size: 0.8rem;
+  color: var(--arc-text-muted);
+  margin-bottom: 16px;
+  font-family: var(--arc-font-mono);
+}
+
+.arc-btn-enter {
+  width: 100%;
+  background: var(--arc-navy);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.arc-btn-enter:hover {
+  background: var(--arc-accent);
+}
+
+.arc-btn-secondary {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--arc-border);
+  color: var(--arc-text);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s;
+}
+
+.arc-btn-secondary:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.arc-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  font-size: 0.7rem;
+  color: var(--arc-text-muted);
+  font-family: var(--arc-font-mono);
+  text-transform: uppercase;
+}
+
+.arc-divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--arc-border);
+}
+
+/* ===== Responsivo ===== */
+
+@media (max-width: 480px) {
+  body { padding: 16px; }
+  .arc-auth-body { padding: 24px; }
+  .arc-auth-header { padding: 24px; }
+}

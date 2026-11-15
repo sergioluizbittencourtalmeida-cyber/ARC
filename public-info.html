@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Information — A.R.C.</title>
+  <meta name="description" content="Informações públicas, avisos de segurança e comunicados institucionais da A.R.C.">
+  <link rel="stylesheet" href="css/public.css">
+</head>
+<body>
+
+  <div class="arc-scanline"></div>
+
+  <header class="arc-header">
+    <div class="arc-topbar">
+      <div class="arc-seal">SEL OFICIAL • A.R.C. • NÍVEL INSTITUCIONAL</div>
+      <div class="arc-date" id="arc-clock">—</div>
+    </div>
+    <nav class="arc-main-nav">
+      <div class="arc-nav-container">
+        <div class="arc-logo">
+          <div class="arc-logo-mark">ARC</div>
+          <div>
+            <div class="arc-logo-text">A.R.C.</div>
+            <div class="arc-logo-sub">Anomalous Research &amp; Containment</div>
+          </div>
+        </div>
+        <ul class="arc-nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="departments.html">Departments</a></li>
+          <li><a href="public-info.html" class="active">Public Information</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="signin.html" class="arc-btn-signin">SIGN IN</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="arc-container">
+    <section class="arc-section">
+      <div class="arc-section-header">
+        <div class="arc-badge arc-badge-public">Monitoramento Público</div>
+        <div>
+          <h2>GLOBAL MONITORING NETWORK</h2>
+          <p class="intro" style="font-size: 0.9rem; color: var(--arc-text-muted); margin-bottom: 8px;"><strong>Status:</strong> SYSTEM ONLINE</p>
+          <p class="intro" style="font-size: 1rem; color: var(--arc-text);">Monitoring unusual environmental, geological, biological and human-related events across monitored regions.</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+
+        <div class="arc-event-card" onclick="location.href='event-geo-001.html'" style="cursor:pointer;">
+          <div class="arc-event-image" style="position:relative;width:100%;height:140px;overflow:hidden;background:#0a0a0a;">
+            <img src="assets/images/001-geo.png" alt="Geological Event 001" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div style="padding: 16px;">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--arc-accent);font-family:var(--arc-font-mono);margin-bottom:8px;">GEOLOGICAL EVENT 001</div>
+            <div class="arc-status" style="display:inline-block;font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;padding:3px 8px;border-radius:3px;font-family:var(--arc-font-mono);color:var(--arc-warn);border:1px solid rgba(251, 191, 36, 0.3);background: rgba(251, 191, 36, 0.1);margin-bottom:12px;">UNDER OBSERVATION</div>
+            <h4 style="color:var(--arc-navy);font-size:1rem;margin-bottom:8px;">Volcanic activity — Pacific Region</h4>
+            <p style="font-size:0.85rem;color:var(--arc-text-muted);margin-bottom:12px;">Unusual geothermal activity detected beneath a volcanic structure. Geological monitoring teams have been dispatched for further observation.</p>
+            <div class="arc-card-footer" style="display:flex;justify-content:space-between;font-family:var(--arc-font-mono);font-size:0.7rem;color:var(--arc-text-muted);border-top:1px solid var(--arc-border);padding-top:10px;">
+              <span>2024-09-12</span>
+              <span style="color:var(--arc-accent);font-weight:700;">View record ▸</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arc-event-card" onclick="location.href='event-atm-014.html'" style="cursor:pointer;">
+          <div class="arc-event-image" style="position:relative;width:100%;height:140px;overflow:hidden;background:#0a0a0a;">
+            <img src="assets/images/014-atm.png" alt="Atmospheric Event 014" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div style="padding: 16px;">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--arc-accent);font-family:var(--arc-font-mono);margin-bottom:8px;">ATMOSPHERIC EVENT 014</div>
+            <div class="arc-status" style="display:inline-block;font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;padding:3px 8px;border-radius:3px;font-family:var(--arc-font-mono);color:var(--arc-secret);border:1px solid rgba(251, 146, 60, 0.3);background: rgba(251, 146, 60, 0.1);margin-bottom:12px;">INVESTIGATION</div>
+            <h4 style="color:var(--arc-navy);font-size:1rem;margin-bottom:8px;">Persistent fog — Northern Region</h4>
+            <p style="font-size:0.85rem;color:var(--arc-text-muted);margin-bottom:12px;">Unusual atmospheric conditions have been reported across a remote forest region, with visibility remaining critically low.</p>
+            <div class="arc-card-footer" style="display:flex;justify-content:space-between;font-family:var(--arc-font-mono);font-size:0.7rem;color:var(--arc-text-muted);border-top:1px solid var(--arc-border);padding-top:10px;">
+              <span>2024-09-08</span>
+              <span style="color:var(--arc-accent);font-weight:700;">View record ▸</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arc-event-card" onclick="return arcDenyAccessPop022();" style="cursor:pointer;">
+          <div class="arc-event-image" style="position:relative;width:100%;height:140px;overflow:hidden;background:#0a0a0a;display:flex;align-items:center;justify-content:center;color:#555;font-family:var(--arc-font-mono);font-size:0.7rem;">
+    [EVENT IMAGERY ARCHIVED]
+  </div>
+          <div style="padding: 16px;">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--arc-accent);font-family:var(--arc-font-mono);margin-bottom:8px;">POPULATION EVENT 022</div>
+            <div class="arc-status" style="display:inline-block;font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;padding:3px 8px;border-radius:3px;font-family:var(--arc-font-mono);color:var(--arc-danger);border:1px solid rgba(248, 113, 113, 0.3);background: rgba(248, 113, 113, 0.1);margin-bottom:12px;">RESTRICTED</div>
+            <h4 style="color:var(--arc-navy);font-size:1rem;margin-bottom:8px;">Unexplained disappearances — Rural settlement</h4>
+            <p style="font-size:0.85rem;color:var(--arc-text-muted);margin-bottom:12px;">Authorities are investigating inconsistencies in local population records following reports of unexplained disappearances.</p>
+            <div class="arc-card-footer" style="display:flex;justify-content:space-between;font-family:var(--arc-font-mono);font-size:0.7rem;color:var(--arc-text-muted);border-top:1px solid var(--arc-border);padding-top:10px;">
+              <span>2024-08-29</span>
+              <span style="color:var(--arc-accent);font-weight:700;">View record ▸</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arc-event-card" onclick="location.href='event-bio-031.html'" style="cursor:pointer;">
+          <div class="arc-event-image" style="position:relative;width:100%;height:140px;overflow:hidden;background:#0a0a0a;">
+            <img src="assets/images/031-imi.png" alt="Atmospheric Event 014" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div style="padding: 16px;">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--arc-accent);font-family:var(--arc-font-mono);margin-bottom:8px;">BIOLOGICAL EVENT 031</div>
+            <div class="arc-status" style="display:inline-block;font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;padding:3px 8px;border-radius:3px;font-family:var(--arc-font-mono);color:var(--arc-class-internal);border:1px solid rgba(56, 189, 248, 0.3);background: rgba(56, 189, 248, 0.1);margin-bottom:12px;">UNDER REVIEW</div>
+            <h4 style="color:var(--arc-navy);font-size:1rem;margin-bottom:8px;">Unusual wildlife behavior — Eastern Region</h4>
+            <p style="font-size:0.85rem;color:var(--arc-text-muted);margin-bottom:12px;">Multiple reports indicate unusual animal migration patterns and unexplained behavioral changes.</p>
+            <div class="arc-card-footer" style="display:flex;justify-content:space-between;font-family:var(--arc-font-mono);font-size:0.7rem;color:var(--arc-text-muted);border-top:1px solid var(--arc-border);padding-top:10px;">
+              <span>2024-08-15</span>
+              <span style="color:var(--arc-accent);font-weight:700;">View record ▸</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arc-event-card" onclick="location.href='event-seis-042.html'" style="cursor:pointer;">
+          <div class="arc-event-image" style="position:relative;width:100%;height:140px;overflow:hidden;background:#0a0a0a;">
+            <img src="assets/images/042-sismic.png" alt="Atmospheric Event 014" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div style="padding: 16px;">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:var(--arc-accent);font-family:var(--arc-font-mono);margin-bottom:8px;">SEISMIC EVENT 042</div>
+            <div class="arc-status" style="display:inline-block;font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;padding:3px 8px;border-radius:3px;font-family:var(--arc-font-mono);color:var(--arc-class-public);border:1px solid rgba(34, 197, 94, 0.3);background: rgba(34, 197, 94, 0.1);margin-bottom:12px;">MONITORING</div>
+            <h4 style="color:var(--arc-navy);font-size:1rem;margin-bottom:8px;">Unusual seismic readings — Underground region</h4>
+            <p style="font-size:0.85rem;color:var(--arc-text-muted);margin-bottom:12px;">Monitoring stations have registered irregular underground vibrations that do not correspond to previously recorded geological patterns.</p>
+            <div class="arc-card-footer" style="display:flex;justify-content:space-between;font-family:var(--arc-font-mono);font-size:0.7rem;color:var(--arc-text-muted);border-top:1px solid var(--arc-border);padding-top:10px;">
+              <span>2024-08-03</span>
+              <span style="color:var(--arc-accent);font-weight:700;">View record ▸</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top: 48px; padding: 32px; background: #f8fafc; border: 1px solid var(--arc-border); border-left: 4px solid var(--arc-accent); border-radius: var(--radius);">
+        <h3 style="color: var(--arc-navy); margin-bottom: 12px;">Compromisso Institucional</h3>
+        <p style="color: var(--arc-text-muted);">A A.R.C. reafirma seu compromisso com a segurança e a estabilidade da sociedade. Todos os eventos listados acima estão sob monitoramento institucional e seguem protocolos de segurança pública estabelecidos. Informações detalhadas estão disponíveis apenas para pessoal autorizado através da área restrita.</p>
+      </div>
+    </section>
+  </div>
+
+  <footer class="arc-footer">
+    <div class="arc-footer-grid">
+      <div>
+        <h4>A.R.C.</h4>
+        <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.6; margin-bottom: 16px;">Anomalous Research &amp; Containment — Organização independente dedicada à investigação e contenção de fenômenos anômalos.</p>
+      </div>
+      <div>
+        <h4>Portal Público</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">Sobre Nós</a></li>
+          <li><a href="departments.html">Departamentos</a></li>
+          <li><a href="contact.html">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Canais Oficiais</h4>
+        <ul>
+          <li><a href="#">Central de Atendimento</a></li>
+          <li><a href="#">Relatar Ocorrência</a></li>
+          <li><a href="signin.html">Área Restrita (Sign In)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="arc-footer-bottom">
+      <div>© 2024 A.R.C. — Anomalous Research &amp; Containment.</div>
+      <div style="font-family: var(--arc-font-mono); font-size: 0.75rem;">Portal Público • v1.0.0</div>
+    </div>
+  </footer>
+
+  <script>
+    function updateClock() {
+      var now = new Date();
+      var el = document.getElementById('arc-clock');
+      if (el) el.textContent = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // ============================================================================
+    // POP-022 — Evento restrito: nega acesso com popup + glitch threshold
+    // ============================================================================
+    function arcDenyAccessPop022() {
+      var toast = document.getElementById('arc-toast-denied');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'arc-toast-denied';
+        toast.className = 'arc-toast-denied';
+        toast.innerHTML =
+          '<span class="arc-toast-close" title="Fechar aviso" onclick="arcToastDeniedClose(this)">&times;</span>' +
+          '<span class="arc-toast-title">Acesso negado</span>' +
+          '<span class="arc-toast-msg">Você não possui a <b>permissão</b> para acessar o caso.</span>';
+        document.body.appendChild(toast);
+      }
+      toast.classList.add('show');
+
+      // Aplica a bugada de threshold em toda a página
+      document.body.classList.add('arc-glitch-threshold');
+
+      // Remove o efeito visual após alguns segundos (página volta ao normal)
+      setTimeout(function() {
+        document.body.classList.remove('arc-glitch-threshold');
+      }, 5000);
+
+      // Remove o popup após alguns segundos
+      setTimeout(function() {
+        toast.classList.remove('show');
+      }, 6000);
+
+      // Impede a navegação para a página restrita
+      return false;
+    }
+
+    function arcToastDeniedClose(btn) {
+      var t = btn.parentElement;
+      if (t) t.classList.remove('show');
+    }
+  </script>
+</body>
+</html>
